@@ -1,0 +1,21 @@
+# ACC102 Track4 Financial Analysis Notebook
+import wrds
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Connect to WRDS
+db = wrds.Connection(wrds_username="your_username")
+
+# Get data
+def get_data(ticker, start, end):
+    query = f"""
+        select fyear, revt, ni, at, act, lct, lt, epsfx
+        from comp.funda
+        where tic = '{ticker}'
+        and fyear between {start} and {end}
+    """
+    return db.raw_sql(query)
+
+# Example
+df = get_data("AAPL", 2016, 2024)
+print(df.head())
